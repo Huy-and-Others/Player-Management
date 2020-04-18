@@ -21,7 +21,7 @@ public class PlayerController {
     @GetMapping("/players/{id}")
     public @ResponseBody
     Player getByID(@PathVariable(required = true) Long id){
-        return service.getByID(id);
+        return service.getById(id);
     }
 
     @PostMapping("/players/")
@@ -33,7 +33,8 @@ public class PlayerController {
     @PutMapping("/players/{id}")
     public @ResponseBody
     Player updateById(@PathVariable(required = true) Long id, @RequestBody Player player) throws InvalidConfigurationPropertyValueException {
-        return service.updateById(id, player);
+        player.setId(id);
+        return service.updateById(player);
     }
 
     @DeleteMapping("/players/{id}")
