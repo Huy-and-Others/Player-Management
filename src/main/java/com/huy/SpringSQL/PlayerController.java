@@ -11,39 +11,34 @@ import java.util.Optional;
 @Controller
 public class PlayerController {
     @Autowired
-    private PlayerRepository repo;
+    private PlayerService service;
 
     @GetMapping("/players")
     public @ResponseBody Iterable<Player> getAll(){
-        return repo.findAll();
+        return service.getAll();
     }
 
     @GetMapping("/players/{id}")
     public @ResponseBody
     Player getByID(@PathVariable(required = true) Long id){
-        return repo.findById(id).orElseThrow(() -> new InvalidConfigurationPropertyValueException("id", id, "does not exist"));
+        return service.getByID(id);
     }
 
     @PostMapping("/players/")
     public @ResponseBody
     Player save(@RequestBody Player player){
-        return repo.save(player);
+        return service.save(player);
     }
 
     @PutMapping("/players/{id}")
     public @ResponseBody
     Player updateById(@PathVariable(required = true) Long id, @RequestBody Player player) throws InvalidConfigurationPropertyValueException {
-        repo.findById(id).orElseThrow(() -> new InvalidConfigurationPropertyValueException("id", id, "does not exist"));
-        player.setId(id);
-        return repo.save(player);
+        return service.updateById(id, player);
     }
 
     @DeleteMapping("/players/{id}")
     public @ResponseBody Optional<Player> deleteById(@PathVariable Long id){
-        Optional<Player> player = Optional.ofNullable(repo.findById(id).orElseThrow(() -> new InvalidConfigurationPropertyValueException("id", id, "does not exist")));;
-        repo.deleteById(id);
-        return player;
+        return service.deleteById(id);
     }
-
 
 }
