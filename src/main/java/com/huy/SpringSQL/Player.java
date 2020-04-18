@@ -12,6 +12,11 @@ public class Player {
     @Column(name = "FIRST_NAME")
     private String name;
 
+    public Player(String name, Long id){
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId(){
         return id;
     }
